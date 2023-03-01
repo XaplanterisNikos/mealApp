@@ -7,6 +7,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.awt.HeadlessException;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -227,7 +228,15 @@ public class MealsForm extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-     
+    
+        //Εμφάνηση αποθηκευμενων στοιχειων στην βαση
+        Query selectAllMeals = em.createNamedQuery("Meal.findAll");
+        List<Meal> list = selectAllMeals.getResultList();
+        System.out.println("Αποθηκευμένα γεύματα στη ΒΔ:");
+        for (Meal m : list) {
+            System.out.println(m.getMealname() + "    " + m.getMealcategory() + "   " + m.getMealcountry());
+        }    
+        
         Integer idmeal = Integer.valueOf(jTextField1.getText());
         System.out.println(idmeal);
 
