@@ -13,10 +13,22 @@ public class StatisticForm extends javax.swing.JFrame {
     /**
      * Creates new form StatisticForm
      */
+    
+    //Constructor της φόρμας
     public StatisticForm() {
         initComponents();
+        setTitle("Προβολή Στατιστικών και Εκτύπωση");
+ 
+        //Κεντράρισμα της φόρμας
+        setLocationRelativeTo(null);
+
+        //Αρχικοποίηση κειμένου της ετικέτας και των δύο πλήκτρων
+        jLabel1.setText("Προβολές Γευμάτων:");
+        jButton1.setText("Εκτύπωση PDF");
+        jButton2.setText("Επιστροφή");        
     }
 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -124,6 +136,7 @@ public class StatisticForm extends javax.swing.JFrame {
         });
     }
 
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
