@@ -16,8 +16,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
- * geia sas paidia
- * @author Troll_Czervo
+ * 
+ * @author foxnks
  */
 @Entity
 @Table(name = "MEAL")
