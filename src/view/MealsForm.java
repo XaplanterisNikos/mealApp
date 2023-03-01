@@ -231,8 +231,8 @@ public class MealsForm extends javax.swing.JFrame {
         System.out.println(idmeal);
 
       
-        Query query = em.createNamedQuery("Meal.findByIdmeal");
-        query.setParameter("idmeal", idmeal);
+        Query query = em.createNamedQuery("Meal.findByMealid");
+        query.setParameter("mealid", idmeal);
 
      
         if (query.getResultList().isEmpty()) {
