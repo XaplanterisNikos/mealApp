@@ -1,7 +1,15 @@
 
 package view;
 
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.swing.table.DefaultTableModel;
+import meals.MealJpaController;
+import model.Meal;
 
 /**
  *
@@ -15,6 +23,13 @@ public class StatisticForm extends javax.swing.JFrame {
     
      //Το μοντέλο του πίνακα 
      private   DefaultTableModel model;
+    
+     //Entity Manager & Controllers
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("MealsPU");
+    EntityManager em = emf.createEntityManager();
+    EntityTransaction tx = em.getTransaction();
+    MealJpaController mealController = new MealJpaController(emf);
+    
     
     //Constructor της φόρμας
     public StatisticForm() {
@@ -31,13 +46,20 @@ public class StatisticForm extends javax.swing.JFrame {
         jButton2.setText("Επιστροφή"); 
         
         model = new DefaultTableModel();
-         //Προσθέτουμε τις δύο στήλες του μοντέλου
+         //Προσθέτουμε τις στήλες του μοντέλου
         model.addColumn("Γεύμα");
         model.addColumn("Κατηγορία");
         model.addColumn("Χώρα");
         model.addColumn("Συνταγή");
         model.addColumn("Προβολές");
         jTable1.setModel(model);
+        
+        //Προσθέτουμε το περιεχομενο της Βασης Δεδομένων
+        Query selectAllMeals = em.createNamedQuery("Meal.findAll");
+        List<Meal> list = selectAllMeals.getResultList();
+         for (Meal m : list){
+             model.addRow(new Object[]{m.getMealname(), m.getMealcategory(), m.getMealcountry(), m.getMealinstructions(), m.getMealcounter()});
+         }
         
         
     }
