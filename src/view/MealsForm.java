@@ -10,8 +10,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import meals.MealJpaController;
+import model.Meal;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
@@ -44,12 +47,20 @@ public class MealsForm extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton4 = new javax.swing.JButton();
         jTextField4 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField5 = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Αναζήτηση Γεύματος:");
 
-        jLabel2.setText("Κατηγορία Γεύματος:");
+        jLabel2.setText("Γεύματα:");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.setSelectedIndex(-1);
@@ -67,6 +78,24 @@ public class MealsForm extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Αποθήκευση");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jButton2.setText("Εμφάνιση");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -76,30 +105,59 @@ public class MealsForm extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGap(39, 39, 39)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)
+                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(115, 115, 115)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(29, Short.MAX_VALUE))
+                        .addGap(425, 425, 425)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                            .addComponent(jTextField5)
+                            .addComponent(jTextField3)
+                            .addComponent(jTextField2)
+                            .addComponent(jTextField1))))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14)
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton4)
-                .addContainerGap(397, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)
+                        .addGap(31, 31, 31)
+                        .addComponent(jButton1)))
+                .addGap(23, 23, 23)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         pack();
@@ -109,48 +167,48 @@ public class MealsForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             String meal = jTextField4.getText();
-            //Το url που θα καλέσουμε
+            
             String urlToCall = "https://www.themealdb.com/api/json/v1/1/search.php?s=" + meal;
 
-            //Δημιουργούμε ένα αντικείμενο OkHttpClient 
+            
             OkHttpClient client = new OkHttpClient();
 
-            //Δημιουργούμε ένα αντικείμενο Request με όρισμα το url που θα καλέσουμε 
+             
             Request request = new Request.Builder().url(urlToCall).build();
 
-            //Ξεκινάμε και ζητάμε το url και ελέγχουμε εάν μας φέρνει αποτελέσματα
+            
             try (okhttp3.Response response = client.newCall(request).execute()) {
 
                 if (response.isSuccessful() && response.body() != null) {
 
-                    //Καταχωρούμε σε ένα String το αποτέλεσμα
+                   
                     String responseString = response.body().string();
-                    //System.out.println(responseString);
+                    
 
-                    //Δημιουργούμε ένα αντικείμενο GsonBuilder
+                    
                     GsonBuilder builder = new GsonBuilder();
                     builder.setPrettyPrinting();
                     Gson gson = builder.create();
 
-                    //Πέρνουμε τα αποτελέσματα σε JsonObject 
+                    
                     JsonObject json = gson.fromJson(responseString, JsonObject.class);
                     System.out.println(json);
 
-                    //Δημιουργούμε ένα JsonArray
+                   
                     JsonArray mealsArray = json.get("meals").getAsJsonArray();
                     System.out.println(mealsArray);
 
-                    //Δημιουργώ ένα Model
+                    
                     DefaultComboBoxModel model = new DefaultComboBoxModel();
 
-                    //Διαπερνάω τα meals
+                   
                     for (JsonElement jsonElement : mealsArray) {
                         JsonObject m = jsonElement.getAsJsonObject();
                         String name = m.get("strMeal").getAsString();
                         System.out.println(name);
                         model.addElement(name);
                     }
-                    //Προσθέτω τα meals στο jComboBox1
+                   
                     jComboBox1.setModel(model);
                 }
             } catch (Exception e) {
@@ -166,13 +224,145 @@ public class MealsForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField4ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+     
+        Integer idmeal = Integer.parseInt(jTextField1.getText());
+        System.out.println(idmeal);
+
+      
+        Query query = em.createNamedQuery("Meal.findByIdmeal");
+        query.setParameter("idmeal", idmeal);
+
+     
+        if (query.getResultList().isEmpty()) {
+            try {
+                //Πέρνουμε τα δεδομένα από την φόρμα
+                String strmeal = jTextField2.getText();
+                String strcategory = jTextField3.getText();
+                String strarea = jTextField5.getText();
+                String strinstructions = jTextArea1.getText();
+
+               
+                Meal meal = new Meal(idmeal, strmeal, strcategory, strarea, strinstructions);
+
+              
+                mealController.create(meal);
+
+                JOptionPane.showMessageDialog(null, "Το γεύμα καταχωρήθηκε ", "Status", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Το γεύμα υπάρχει ήδη", "Status", JOptionPane.WARNING_MESSAGE);
+        }
+                    
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        
+        try {
+            Query query = em.createNamedQuery("Meal.findByMealname");
+            query.setParameter("mealname", jComboBox1.getSelectedItem().toString());
+
+            
+            if (query.getResultList().isEmpty()) {
+                try {
+                    String meal = jComboBox1.getSelectedItem().toString();
+                   
+                    String urlToCall = "https://www.themealdb.com/api/json/v1/1/search.php?s=" + meal;
+
+                 
+                    OkHttpClient client = new OkHttpClient();
+                  
+                    Request request = new Request.Builder().url(urlToCall).build();
+
+                   
+                    try (okhttp3.Response response = client.newCall(request).execute()) {
+
+                        if (response.isSuccessful() && response.body() != null) {
+
+                          
+                            String responseString = response.body().string();
+                          
+
+                          
+                            GsonBuilder builder = new GsonBuilder();
+                            builder.setPrettyPrinting();
+                            Gson gson = builder.create();
+
+                        
+                            JsonObject json = gson.fromJson(responseString, JsonObject.class);
+                            System.out.println(json);
+
+                          
+                            JsonArray mealsArray = json.get("meals").getAsJsonArray();
+                            System.out.println(mealsArray);
+
+                          
+                            for (JsonElement jsonElement : mealsArray) {
+                                JsonObject m = jsonElement.getAsJsonObject();
+                                String idMeal = m.get("idMeal").getAsString();
+                                jTextField1.setText(idMeal);
+                                String strMeal = m.get("strMeal").getAsString();
+                                jTextField2.setText(strMeal);
+                                String strCategory = m.get("strCategory").getAsString();
+                                jTextField3.setText(strCategory);
+                                String strArea = m.get("strArea").getAsString();
+                                jTextField5.setText(strArea);
+                                String strInstructions = m.get("strInstructions").getAsString();
+                                jTextArea1.setText(strInstructions);
+                            }
+                        }
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            } 
+            else {
+               
+                Meal meal = (Meal) query.getSingleResult();
+              
+                meal.addMealCounter();
+               
+                mealController.edit(meal);
+                
+               
+                String idMeal = meal.getMealid().toString();
+                jTextField5.setText(idMeal);
+                String strMeal = meal.getMealname();
+                jTextField2.setText(strMeal);
+                String strCategory = meal.getMealcategory();
+                jTextField3.setText(strCategory);
+                String strArea = meal.getMealcountry();
+                jTextField4.setText(strArea);
+                String strInstructions = meal.getMealinstructions();
+                jTextArea1.setText(strInstructions);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+                                           
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 }
