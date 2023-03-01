@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import java.awt.HeadlessException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -227,7 +228,7 @@ public class MealsForm extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
      
-        Integer idmeal = Integer.parseInt(jTextField1.getText());
+        Integer idmeal = Integer.valueOf(jTextField1.getText());
         System.out.println(idmeal);
 
       
@@ -250,7 +251,7 @@ public class MealsForm extends javax.swing.JFrame {
                 mealController.create(meal);
 
                 JOptionPane.showMessageDialog(null, "Το γεύμα καταχωρήθηκε ", "Status", JOptionPane.INFORMATION_MESSAGE);
-            } catch (Exception e) {
+            } catch (HeadlessException e) {
                 System.out.println(e);
             }
         } else {
@@ -332,13 +333,13 @@ public class MealsForm extends javax.swing.JFrame {
                 
                
                 String idMeal = meal.getMealid().toString();
-                jTextField5.setText(idMeal);
+                jTextField1.setText(idMeal);
                 String strMeal = meal.getMealname();
                 jTextField2.setText(strMeal);
                 String strCategory = meal.getMealcategory();
                 jTextField3.setText(strCategory);
                 String strArea = meal.getMealcountry();
-                jTextField4.setText(strArea);
+                jTextField5.setText(strArea);
                 String strInstructions = meal.getMealinstructions();
                 jTextArea1.setText(strInstructions);
             }
