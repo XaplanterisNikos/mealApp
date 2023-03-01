@@ -16,7 +16,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
- *
+ * geia sas paidia
  * @author Troll_Czervo
  */
 @Entity
