@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Wed Mar 01 20:52:40 EET 2023:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0186-9e84-fbaa-00003f4266b0 
+Wed Mar 01 21:17:34 EET 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-0186-9e9b-c6bf-00003f32bf98 
 on database directory C:\Users\foxnk\Documents\NetBeansProjects\mealApp\mealDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@659e0bfd 
 Loaded from file:/C:/Users/foxnk/Documents/NetBeansProjects/mealApp/libs/derby.jar
 java.vendor=Oracle Corporation
