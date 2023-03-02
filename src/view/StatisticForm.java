@@ -1,13 +1,24 @@
 
 package view;
 
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.Font;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Element;
 import meals.MealJpaController;
 import model.Meal;
 
@@ -55,8 +66,7 @@ public class StatisticForm extends javax.swing.JFrame {
         jTable2.setModel(model);
         
         //Προσθέτουμε το περιεχομενο της Βασης Δεδομένων
-        Query selectAllMeals = em.createNamedQuery("Meal.findAll");
-        List<Meal> list = selectAllMeals.getResultList();
+        List<Meal> list = mealController.getMealsOrderedByViews();
          for (Meal m : list){
              model.addRow(new Object[]{m.getMealname(), m.getMealcategory(), m.getMealcountry(), m.getMealinstructions(), m.getMealcounter()});
          }
@@ -150,6 +160,62 @@ public class StatisticForm extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        if(mealController.getMealsOrderedByViews().isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Δεν υπάρχουν αποθηκευμένα γεύματα στη βάση δεδομένων",
+                    "Μήνυμα", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        try {
+            Document document = new Document(PageSize.A4.rotate());
+            OutputStream outputStream = new FileOutputStream(new File("MealStatistics.pdf"));
+            PdfWriter.getInstance(document, outputStream);
+            document.open();
+            
+            //Καταχώριση της συμβολοσειράς Arial με χρήση αρχείου arial.ttf που βρίσκεται στο φάκελο του project
+            FontFactory.register("arial.ttf", "Arial");
+
+            Font font = FontFactory.getFont("Arial", "Cp1253", true);
+
+            Paragraph par = new Paragraph("Γευμάτα που είναι αποθηκευμένα στη βάση δεδομένων:", font);
+
+            par.setAlignment(Element.ALIGN_CENTER);
+            document.add(par);
+            document.add(new Paragraph("\n"));
+            //Δημιουργία πίνακα με 5 στήλες
+            PdfPTable table = new PdfPTable(5);
+
+            table.addCell(new Paragraph("Γεύμα", font));
+            table.addCell(new Paragraph("Κατηγορία", font));
+            table.addCell(new Paragraph("Χώρα", font));
+            table.addCell(new Paragraph("Συνταγή", font));
+            table.addCell(new Paragraph("Προβολές", font));
+
+            //Προσθήκη όλων των προβολών γευμάτων στον πίνακα
+            for (Meal meal : mealController.getMealsOrderedByViews()) {
+                table.addCell(meal.getMealname());
+                table.addCell(meal.getMealcategory());
+                table.addCell(meal.getMealcountry());
+                table.addCell(meal.getMealname());
+                table.addCell(String.valueOf(meal.getMealcounter()));
+            }
+            //Προσθήκη του πίνακα στο PDF
+            document.add(table);
+
+            document.close();
+            outputStream.close();
+
+            //Εμφάνιση μηνύματος για την δημιουργία αρχείου PDF
+            JOptionPane.showMessageDialog(this,
+                    "Δημιουργήθηκε το αρχείο MealStatistics.pdf",
+                    "Επιτυχία αποθήκευσης αρχείου", JOptionPane.INFORMATION_MESSAGE);
+
+
+        } catch (Exception e) {            
+            JOptionPane.showMessageDialog(this,
+                    "Πρόβλημα στην δημιουργία του αρχείου MealStatistics.pdf\n" + e.getMessage(),
+                    "Αποτυχία αποθήκευσης αρχείου", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

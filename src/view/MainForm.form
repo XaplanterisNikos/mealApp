@@ -72,6 +72,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x3a0;&#x39b;&#x397;&#x3a1;&#x39f;&#x3a6;&#x39f;&#x3a1;&#x399;&#x395;&#x3a3;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton5">
       <Properties>

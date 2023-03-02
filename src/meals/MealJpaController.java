@@ -140,4 +140,11 @@ public class MealJpaController implements Serializable {
         }
     }
     
+    //Query που επιστρέφει όλα γεύματα από τον πίνακα Meal ταξινομημένα     
+    public List<Meal> getMealsOrderedByViews() {
+        EntityManager em = getEntityManager();
+        Query q = em.createQuery("select m from Meal m order by m.mealcounter desc, m.mealname");
+        List<Meal> meals = q.getResultList();
+        return meals;
+    }
 }

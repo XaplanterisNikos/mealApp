@@ -40,6 +40,11 @@ public class MainForm extends javax.swing.JFrame {
         });
 
         jButton3.setText("ΠΛΗΡΟΦΟΡΙΕΣ");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("ΕΞΟΔΟΣ");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -104,6 +109,18 @@ public class MainForm extends javax.swing.JFrame {
         // Κλείσιμο εφαρμογής
          this.dispose();   
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        
+        // Επιλογή φόρμα ΠΛΗΡΟΦΟΡΙΕΣ
+        InfoForm inf = new InfoForm();
+        inf.setTitle("ΠΛΗΡΟΦΟΡΙΕΣ");
+        inf.setLocationRelativeTo(null);
+        inf.setVisible(true);
+         //Κλείνουμε την αρχική φόρμα
+        this.dispose();  
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
 
