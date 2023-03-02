@@ -13,6 +13,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import meals.exceptions.NonexistentEntityException;
+import meals.exceptions.PreexistingEntityException;
 import model.Meal;
 
 /**
@@ -30,13 +31,18 @@ public class MealJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Meal meal) {
+    public void create(Meal meal) throws PreexistingEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             em.persist(meal);
             em.getTransaction().commit();
+        } catch (Exception ex) {
+            if (findMeal(meal.getMealid()) != null) {
+                throw new PreexistingEntityException("Meal " + meal + " already exists.", ex);
+            }
+            throw ex;
         } finally {
             if (em != null) {
                 em.close();

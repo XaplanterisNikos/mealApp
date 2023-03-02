@@ -8,6 +8,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.awt.HeadlessException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -345,42 +347,31 @@ public class MealsForm extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     
-        
-        Query selectAllMeals = em.createNamedQuery("Meal.findAll");
-        List<Meal> list = selectAllMeals.getResultList();
-        System.out.println("Αποθηκευμένα γεύματα στη ΒΔ:");
-        for (Meal m : list) {
-            System.out.println(m.getMealname() + "    " + m.getMealcategory() + "   " + m.getMealcountry());
-        }    
-        
         Integer idmeal = Integer.valueOf(jTextField1.getText());
         System.out.println(idmeal);
-
-      
         Query query = em.createNamedQuery("Meal.findByMealid");
         query.setParameter("mealid", idmeal);
-
-     
+        
         if (query.getResultList().isEmpty()) {
             try {
-                
-                String strmeal = jTextField2.getText();
-                String strcategory = jTextField3.getText();
-                String strarea = jTextField5.getText();
-                String strinstructions = jTextArea1.getText();
+                //Πέρνουμε τα δεδομένα από την φόρμα
+                String dmeal = jTextField2.getText();
+                String dcategory = jTextField3.getText();
+                String darea = jTextField5.getText();
+                String dinstructions = jTextArea1.getText();
 
-               
-                Meal meal = new Meal(idmeal, strmeal, strcategory, strarea, strinstructions);
+                //Δημιουργούμε meal
+                Meal meal = new Meal(idmeal, dmeal, dcategory, darea, dinstructions);
 
-              
+                //Με τον Controller στέλνουμε το αντικείμενο στην Database
                 mealController.create(meal);
 
-                JOptionPane.showMessageDialog(null, "Το γεύμα καταχωρήθηκε ", "Status", JOptionPane.INFORMATION_MESSAGE);
-            } catch (HeadlessException e) {
+                JOptionPane.showMessageDialog(null, "Το γεύμα καταχωρήθηκε  ", "Status", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
                 System.out.println(e);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Το γεύμα υπάρχει ήδη", "Status", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Το γεύμα υπάρχει ήδη  ", "Status", JOptionPane.WARNING_MESSAGE);
         }
                     
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -556,12 +547,12 @@ public class MealsForm extends javax.swing.JFrame {
             try {
                
                 tx.begin();
-                Integer idmeal = Integer.parseInt(jTextField5.getText());
+                Integer idmeal = Integer.parseInt(jTextField1.getText());
                 Meal meal = mealController.findMeal(idmeal);
 
                 
-                Query query = em.createQuery("DELETE FROM Meal m WHERE m.idmeal = :idmeal");
-                query.setParameter("idmeal", idmeal).executeUpdate();
+                Query query = em.createQuery("DELETE FROM Meal m WHERE m.mealid = :mealid");
+                query.setParameter("mealid", idmeal).executeUpdate();
 
                 tx.commit();
                 JOptionPane.showMessageDialog(null, "Το " + jTextField2.getText() + " γεύμα διαγράφηκε με επιτυχία ", "Διαγραφή Γεύματος",
