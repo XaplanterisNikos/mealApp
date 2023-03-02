@@ -349,33 +349,40 @@ public class MealsForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    
-        Integer idmeal = Integer.valueOf(jTextField1.getText());
-        System.out.println(idmeal);
-        Query query = em.createNamedQuery("Meal.findByMealid");
-        query.setParameter("mealid", idmeal);
+        // Αποθήκευση στη βάση δεδομένων 
         
+        // Απο το textfield παίρνουμε το id του γεύματος (το εκτυπώνουμε στην console)
+        Integer mealId = Integer.valueOf(jTextField1.getText());
+        System.out.println("Console logcat ID MEAL : " +mealId);
+        
+        //Δημιουργούμε ερώτημα στην βάση για έλεγχο με το findByMealid
+        Query query = em.createNamedQuery("Meal.findByMealid");
+        query.setParameter("mealid", mealId);
+        
+        //Ξεκινάμε τον έλεγχο - Εάν δεν υπάρχει στην βάση 
         if (query.getResultList().isEmpty()) {
             try {
-                //Πέρνουμε τα δεδομένα από την φόρμα
+                //Πέρνουμε τα δεδομένα από τα textField σε μεταβλητές
                 String dmeal = jTextField2.getText();
                 String dcategory = jTextField3.getText();
                 String darea = jTextField5.getText();
                 String dinstructions = jTextArea1.getText();
 
-                //Δημιουργούμε meal
-                Meal meal = new Meal(idmeal, dmeal, dcategory, darea, dinstructions);
+                //Δημιουργούμε αντικείμενο meal και Χρησιμοποιούμε τον κατασκευστή με ορίσματα τα δεδομένα απο τα textfield
+                Meal meal = new Meal(mealId, dmeal, dcategory, darea, dinstructions);
 
-                //Με τον Controller στέλνουμε το αντικείμενο στην Database
+                //Κάνουμε create με τον controller και στέλνουμε το αντικείμενο meal στη βάση
                 mealController.create(meal);
-
-                JOptionPane.showMessageDialog(null, "Το γεύμα καταχωρήθηκε  ", "Status", JOptionPane.INFORMATION_MESSAGE);
+                // Εμφανίζουμε Μήνυμα στον χρήστη για την επιτυχημένη καταχώρηση
+                JOptionPane.showMessageDialog(null, "Το γεύμα  "+dmeal +" καταχωρήθηκε με επιτυχία ", "Ενημερωτικό Μήνυμα", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception e) {
                 System.out.println(e);
             }
+            // Εάν υπάρχει το γεύμα στη βάση
         } else {
-            JOptionPane.showMessageDialog(null, "Το γεύμα υπάρχει ήδη  ", "Status", JOptionPane.WARNING_MESSAGE);
+            String dmeal = jTextField2.getText();
+            // Εμφανίζουμε Μήνυμα στον χρήστη για οτι γεύμα υπάρχει
+            JOptionPane.showMessageDialog(null, "Το γεύμα "+dmeal +" υπάρχει ήδη  ", "Ενημερωτικό Μήνυμα", JOptionPane.WARNING_MESSAGE);
         }
                     
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -544,28 +551,31 @@ public class MealsForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+        // Επιλογή για διαγραφή γεύματος απο την βάση 
         
-        int option = JOptionPane.showConfirmDialog(null, "θα γίνει διαγραφή \n"
-                + "το γεύμα " + jTextField2.getText() + ". Είστε σίγουρος/η ;",
+        // Εμφανίζουμε μύνημα στο χρήστη με επιλογές YES / NO για την διαγραφή εγγραφής
+        int epilogi = JOptionPane.showConfirmDialog(null, "θα γίνει διαγραφή το γεύμα " + jTextField2.getText() + ". Είστε σίγουρος/η ;",
                 "Διαγραφή Γεύματος", JOptionPane.YES_NO_OPTION);
-        if (option == JOptionPane.YES_OPTION) {
+        //Εάν επιλέξει Yes
+        if (epilogi == JOptionPane.YES_OPTION) {
             try {
-               
                 tx.begin();
-                Integer idmeal = Integer.parseInt(jTextField1.getText());
-                Meal meal = mealController.findMeal(idmeal);
-
-                
+                //Αποθηκεύουμε το id σε μεταβλητή
+                Integer mealId = Integer.valueOf(jTextField1.getText());
+              
+                //Δημιουργούμε query delete με το mealid
                 Query query = em.createQuery("DELETE FROM Meal m WHERE m.mealid = :mealid");
-                query.setParameter("mealid", idmeal).executeUpdate();
-
+                query.setParameter("mealid", mealId).executeUpdate();
+                
+                //εκτελούμε
                 tx.commit();
+                //Εμφανίζουμε μήνυμα στο χρήστη οτι η διαγραφή ολοκληρώθηκε
                 JOptionPane.showMessageDialog(null, "Το " + jTextField2.getText() + " γεύμα διαγράφηκε με επιτυχία ", "Διαγραφή Γεύματος",
                         JOptionPane.ERROR_MESSAGE);
             } catch (Exception e) {
                 System.out.println(e);
-                JOptionPane.showMessageDialog(null, "Πρέπει να γίνει επιλογή γεύματος ", "Status",
+                //Εάν σε περίπτωση το textfiled είναι null τότε εμφανίζουμε μήνυμα 
+                JOptionPane.showMessageDialog(null, "Επιλέξτε ένα γεύμα ", "Ενημερωτικό Μήνυμα",
                         JOptionPane.INFORMATION_MESSAGE);
             }
         }
