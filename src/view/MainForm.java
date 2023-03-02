@@ -42,6 +42,11 @@ public class MainForm extends javax.swing.JFrame {
         jButton3.setText("ΠΛΗΡΟΦΟΡΙΕΣ");
 
         jButton5.setText("ΕΞΟΔΟΣ");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -83,15 +88,20 @@ public class MainForm extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        
+       
+        StatisticForm sf = new StatisticForm();
+        sf.setTitle("Προβολή λίστας γευμάτων");
+        sf.setLocationRelativeTo(null);
+        sf.setVisible(true);
          //Κλείνουμε την αρχική φόρμα
         this.dispose();   
         
-        StatisticForm sf = new StatisticForm();
-        sf.setTitle("Προβολή Στατιστικών και Εκτύπωση");
-        sf.setLocationRelativeTo(null);
-        sf.setVisible(true);
+        
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
 
 
 
