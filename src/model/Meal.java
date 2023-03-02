@@ -66,7 +66,7 @@ public class Meal implements Serializable {
         this.mealcategory = mealcategory;
         this.mealcountry = mealcountry;
         this.mealinstructions = mealinstructions;
-        this.mealcounter = 0; //αρχικοποιούμε τον μετρητή σε 0
+        this.mealcounter = 1; //αρχικοποιούμε τον μετρητή σε 0
     }
 
     public Integer getMealid() {
