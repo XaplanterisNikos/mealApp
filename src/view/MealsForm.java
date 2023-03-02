@@ -678,7 +678,7 @@ public class MealsForm extends javax.swing.JFrame {
 
                    // Δημιουργούμε JsonArray και το εκτυπώνουμε στην console
                     JsonArray categoriesArray = jsonObject.get("categories").getAsJsonArray();
-                    System.out.println("Console logcat jsonArray : " + mealsArray);
+                    System.out.println("Console logcat jsonArray : " + categoriesArray);
 
                    // δημιουργούμε αντικείμενο DefaultComboBoxModel
                     DefaultComboBoxModel model = new DefaultComboBoxModel();
