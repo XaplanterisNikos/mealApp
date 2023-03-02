@@ -153,7 +153,13 @@ public class StatisticForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+       // Επιστρέφει στο αρχικό menu
+        MainForm mf = new MainForm();
+        mf.setTitle("Προβολή λίστας γευμάτων");
+        mf.setLocationRelativeTo(null);
+        mf.setVisible(true);
+         //Κλείνουμε την αρχική φόρμα
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
 

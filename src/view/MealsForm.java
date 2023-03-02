@@ -163,7 +163,7 @@ public class MealsForm extends javax.swing.JFrame {
             }
         });
 
-        jButton7.setText("Menu");
+        jButton7.setText("Επιστροφή");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
@@ -307,7 +307,6 @@ public class MealsForm extends javax.swing.JFrame {
                 if (response.isSuccessful() && response.body() != null) {
                     String resultResponce = response.body().string(); // Μεταβλητή για το αποτέλσμα απο το responce
                     
-
                     //Δημιουργούμε αντικείμενο GsonBuilder
                     GsonBuilder gsonBuilder = new GsonBuilder();
                     gsonBuilder.setPrettyPrinting();
@@ -486,47 +485,45 @@ public class MealsForm extends javax.swing.JFrame {
         String category = jComboBox2.getSelectedItem().toString();
         
         try {
-           
-            String urlToCall = "https://www.themealdb.com/api/json/v1/1/filter.php?c="+category;
+           // χρησιμοποιούμε το URL και προσθέτουμε στο PHP αρχείο το όνομα της κατηγορίας γευμάτων
+            String mealAppURL = "https://www.themealdb.com/api/json/v1/1/filter.php?c="+category;
 
-          
-            OkHttpClient client = new OkHttpClient();
-         
-            Request request = new Request.Builder().url(urlToCall).build();
+           // Δημιουργούμε αντικείμενο OkHttpClient
+            OkHttpClient httpClient = new OkHttpClient();
+          // Δημιουργούμε αντικείμενο Reguest και βάζουμε σαν όρισμα το URL
+            Request request = new Request.Builder().url(mealAppURL).build();
 
-           
-            try (okhttp3.Response response = client.newCall(request).execute()) {
+           // Ελέγχουμε αν θα μας επιστραφεί αποτέλεσμα 
+            try (okhttp3.Response response = httpClient.newCall(request).execute()) {
 
                 if (response.isSuccessful() && response.body() != null) {
-
-                    
-                    String responseString = response.body().string();
+                    String resultResponce = response.body().string(); // Μεταβλητή για το αποτέλσμα απο το responce
                  
+                    //Δημιουργούμε αντικείμενο GsonBuilder
+                    GsonBuilder gsonBuilder = new GsonBuilder();
+                    gsonBuilder.setPrettyPrinting();
+                    Gson gson = gsonBuilder.create();
 
-                  
-                    GsonBuilder builder = new GsonBuilder();
-                    builder.setPrettyPrinting();
-                    Gson gson = builder.create();
+                    // Παίρνουμε τα αποτελέσματα σε JsonObject και εκτυπώνουμε στην console
+                    JsonObject jsonObject = gson.fromJson(resultResponce, JsonObject.class);
+                    System.out.println("Console logcat jsonObject : " +jsonObject);
 
-                   
-                    JsonObject json = gson.fromJson(responseString, JsonObject.class);
-                    System.out.println(json);
+                    // Δημιουργούμε JsonArray και το εκτυπώνουμε στην console
+                    JsonArray mealsArray = jsonObject.get("meals").getAsJsonArray();
+                     System.out.println("Console logcat jsonArray : " + mealsArray);
 
-                   
-                    JsonArray mealsArray = json.get("meals").getAsJsonArray();
-                    System.out.println(mealsArray);
-
-                   
+                    // δημιουργούμε αντικείμενο DefaultComboBoxModel
                     DefaultListModel model = new DefaultListModel();
 
-                   
+                    // Διαπερνάμε το array με for και προσθέτουμε τα δεδομένα στο model (εκτυπώνουμε τα αποτελέσματα στο console)
                     for (JsonElement jsonElement : mealsArray) {
-                        JsonObject m = jsonElement.getAsJsonObject();
-                        String strCategory = m.get("strMeal").getAsString();
-                        model.addElement(strCategory);
+                        JsonObject meals = jsonElement.getAsJsonObject();
+                        String categoryName = meals.get("strMeal").getAsString();
+                        System.out.println("Console logcat meal name : " + categoryName);
+                        model.addElement(categoryName);
                     }
                     
-                   
+                   //Προσθέτουμε τις εγγραφές στο List
                     jList1.setModel(model);
                 }
             } catch (Exception e) {
@@ -543,11 +540,48 @@ public class MealsForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        
+        // Επεξεργασία δεδομένων γεύματος
+        
+        // Εμφανίζουμε μύνημα στο χρήστη με επιλογές YES / NO για την επεξεργασία εγγραφής
+        int epilogi = JOptionPane.showConfirmDialog(null, "Επεξεργασία εγγραφής γεύματος " +  jTextField2.getText() + ". Είστε σίγουρος/η ;",
+                "Επεξεργασία Δεδομένων", JOptionPane.YES_NO_OPTION);
+        
+            //Εάν επιλέξει Yes   
+        if (epilogi == JOptionPane.YES_OPTION) {
+            try {
+                //Αποθηκεύουμε σε μεταβλητές τις όποιες αλλαγές έχουν γίνει απο τα textfield
+                Integer idmeal = Integer.valueOf(jTextField1.getText());
+                String nameMeal = jTextField2.getText();
+                String categoryMeal = jTextField3.getText();
+                String countryMeal = jTextField5.getText();
+                String instructionsMeal = jTextArea1.getText();
+                
+                 //Δημιουργούμε αντικείμενο meal και Χρησιμοποιούμε τον κατασκευστή με ορίσματα τα δεδομένα απο τα textfield
+                Meal meal = new Meal(idmeal, nameMeal, categoryMeal, countryMeal, instructionsMeal);
+                // Ενημερώνουμε τη βάση
+                mealController.edit(meal);
+
+                //Εμφανίζουμε μήνυμα στο χρήστη για την επιτυχία της επεξεργασίας
+                JOptionPane.showMessageDialog(null, "Το γεύμα τροποποιήθηκε", "Ενημερωτικό Μήνυμα",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                System.out.println(e);
+                //Εάν σε περίπτωση το textfiled είναι null τότε εμφανίζουμε μήνυμα 
+                JOptionPane.showMessageDialog(null, "Επιλέξτε ένα γεύμα ", "Ενημερωτικό Μήνυμα",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
+        // Επιστρέφει στο αρχικό menu
+        MainForm mf = new MainForm();
+        mf.setTitle("Προβολή λίστας γευμάτων");
+        mf.setLocationRelativeTo(null);
+        mf.setVisible(true);
+         //Κλείνουμε την αρχική φόρμα
+        this.dispose();  
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -616,48 +650,48 @@ public class MealsForm extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void showCategory() {
-        // ΚΑΤΗΓΟΡΙΕΣ
+        // Εμφάνιση κατηγοριών γευμάτων
+        
         try {
-            
-            String urlToCall = "https://www.themealdb.com/api/json/v1/1/categories.php";
+            // χρησιμοποιούμε το URL με το αρχείο categories.php
+            String mealAppURL = "https://www.themealdb.com/api/json/v1/1/categories.php";
 
-            
-            OkHttpClient client = new OkHttpClient();
-           
-            Request request = new Request.Builder().url(urlToCall).build();
+             // Δημιουργούμε αντικείμενο OkHttpClient
+            OkHttpClient httpClient = new OkHttpClient();
+            // Δημιουργούμε αντικείμενο Reguest και βάζουμε σαν όρισμα το URL
+            Request request = new Request.Builder().url(mealAppURL).build();
 
-          
-            try (okhttp3.Response response = client.newCall(request).execute()) {
+          // Ελέγχουμε αν θα μας επιστραφεί αποτέλεσμα 
+            try (okhttp3.Response response = httpClient.newCall(request).execute()) {
 
                 if (response.isSuccessful() && response.body() != null) {
-
-                    
-                    String responseString = response.body().string();
-                   
+                    String resultResponce = response.body().string(); // Μεταβλητή για το αποτέλσμα απο το responce
                   
-                    GsonBuilder builder = new GsonBuilder();
-                    builder.setPrettyPrinting();
-                    Gson gson = builder.create();
+                     //Δημιουργούμε αντικείμενο GsonBuilder
+                    GsonBuilder gsonBuilder = new GsonBuilder();
+                    gsonBuilder.setPrettyPrinting();
+                    Gson gson = gsonBuilder.create();
 
-                    
-                    JsonObject json = gson.fromJson(responseString, JsonObject.class);
-                    System.out.println(json);
+                   // Παίρνουμε τα αποτελέσματα σε JsonObject και εκτυπώνουμε στην console
+                    JsonObject jsonObject = gson.fromJson(resultResponce, JsonObject.class);
+                    System.out.println("Console logcat jsonObject : " +jsonObject);
 
-                  
-                    JsonArray categoriesArray = json.get("categories").getAsJsonArray();
-                    System.out.println(categoriesArray);
+                   // Δημιουργούμε JsonArray και το εκτυπώνουμε στην console
+                    JsonArray categoriesArray = jsonObject.get("categories").getAsJsonArray();
+                    System.out.println("Console logcat jsonArray : " + mealsArray);
 
-                  
+                   // δημιουργούμε αντικείμενο DefaultComboBoxModel
                     DefaultComboBoxModel model = new DefaultComboBoxModel();
 
-                   
+                    // Διαπερνάμε το array με for και προσθέτουμε τα δεδομένα στο model (εκτυπώνουμε τα αποτελέσματα στο console)
                     for (JsonElement jsonElement : categoriesArray) {
-                        JsonObject m = jsonElement.getAsJsonObject();
-                        String strCategory = m.get("strCategory").getAsString();
-                        model.addElement(strCategory);
+                        JsonObject meal = jsonElement.getAsJsonObject();
+                        String categoryName = meal.get("strCategory").getAsString();
+                        System.out.println("Console logcat meal name : " + categoryName);
+                        model.addElement(categoryName);
                     }
                     
-                   
+                   //Προσθέτουμε τις εγγραφές στο comboBox
                     jComboBox2.setModel(model);
                 }
             } catch (Exception e) {
