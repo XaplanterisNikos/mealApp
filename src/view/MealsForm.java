@@ -12,6 +12,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import java.awt.ComponentOrientation;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -442,6 +443,8 @@ public class MealsForm extends javax.swing.JFrame {
                                 jTextField5.setText(countryMeal);
                                 String instructionsMeal = meals.get("strInstructions").getAsString();
                                 jTextArea1.setText(instructionsMeal);
+                                jTextArea1.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+                                jTextArea1.setCaretPosition(0);
                             }
                         }
                     } catch (Exception e) {
@@ -472,6 +475,8 @@ public class MealsForm extends javax.swing.JFrame {
                 jTextField5.setText(countryMeal);
                 String instructionsMeal = meal.getMealinstructions();
                 jTextArea1.setText(instructionsMeal);
+                jTextArea1.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+                jTextArea1.setCaretPosition(0);
             }
         } catch (Exception e) {
             System.out.println(e);
