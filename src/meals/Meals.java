@@ -18,8 +18,9 @@ public class Meals {
         //Δημιουργία των πινάκων της βάσης δεδομένων αν δεν υπάρχουν 
         DatabaseCreat.CreateDatabaseTables();
         
+        //Δημιουργία του MAINFORM 
         MainForm mf = new MainForm();
-        mf.setTitle("Προβολή λίστας γευμάτων");
+        mf.setTitle("Meals App");
         mf.setLocationRelativeTo(null);
         mf.setVisible(true);
         
