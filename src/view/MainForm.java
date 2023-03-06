@@ -1,6 +1,9 @@
 
 package view;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 
 public class MainForm extends javax.swing.JFrame {
 
@@ -107,7 +110,12 @@ public class MainForm extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // Κλείσιμο εφαρμογής
-         this.dispose();   
+         JFrame frame = new JFrame("EXIT");
+         if(JOptionPane.showConfirmDialog(frame,"Θέλετε να κάνετε Έξοδο ;","EXIT",
+                 JOptionPane.YES_NO_OPTION)==JOptionPane.YES_NO_OPTION)
+         {
+             System.exit(0);
+         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
