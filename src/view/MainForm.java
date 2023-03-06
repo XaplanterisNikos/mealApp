@@ -1,6 +1,12 @@
 
 package view;
 
+
+/**
+ *
+ * @author developerTeam_EAP_PLH24
+ * 
+ */
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 

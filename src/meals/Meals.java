@@ -1,10 +1,14 @@
 
 package meals;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+/**
+ *
+ * @author developerTeam_EAP_PLH24
+ * 
+ */
+
+
 import java.sql.SQLException;
-import java.sql.Statement;
 import view.MainForm;
 
 public class Meals {

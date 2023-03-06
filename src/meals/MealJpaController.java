@@ -18,8 +18,10 @@ import model.Meal;
 
 /**
  *
- * @author foxnk
+ * @author developerTeam_EAP_PLH24
+ * 
  */
+
 public class MealJpaController implements Serializable {
 
     public MealJpaController(EntityManagerFactory emf) {

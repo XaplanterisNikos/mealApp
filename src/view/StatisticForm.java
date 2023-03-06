@@ -1,6 +1,14 @@
 
 package view;
 
+
+/**
+ *
+ * @author developerTeam_EAP_PLH24
+ * 
+ */
+
+
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -22,10 +30,7 @@ import com.itextpdf.text.Element;
 import meals.MealJpaController;
 import model.Meal;
 
-/**
- *
- * @author Troll_Czervo
- */
+
 public class StatisticForm extends javax.swing.JFrame {
 
     /**
