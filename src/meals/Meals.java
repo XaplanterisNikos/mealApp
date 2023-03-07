@@ -16,7 +16,7 @@ public class Meals {
 
     public static void main(String[] args) throws SQLException {
         //Δημιουργία των πινάκων της βάσης δεδομένων αν δεν υπάρχουν 
-        DatabaseCreat.CreateDatabaseTables();
+        DatabaseCreate.CreateDatabaseTables();
         
         //Δημιουργία του MAINFORM 
         MainForm mf = new MainForm();

@@ -12,7 +12,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DatabaseCreat {
+public class DatabaseCreate {
     
     //Το String για την σύνδεση με τη βάση δεδομένων
     //Η βάση δεδομένων βρίσκεται μέσα στο φάκελο του project
@@ -24,6 +24,7 @@ public class DatabaseCreat {
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(connectionString);
+            //Το αντικείμενο που χρησιμοποιείται για την εκτέλεση μιας στατικής πρότασης SQL και την επιστροφή των αποτελεσμάτων που παράγει
             Statement statement = connection.createStatement();
             statement.executeUpdate(createTableSQL);
             statement.close();
