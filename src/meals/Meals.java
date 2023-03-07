@@ -15,10 +15,12 @@ public class Meals {
 
 
     public static void main(String[] args) throws SQLException {
-        //Δημιουργία των πινάκων της βάσης δεδομένων αν δεν υπάρχουν 
+        
+        /*Καλούμε την static μέθοδο CreateDatabaseTables() της κλάσης DatabaseCreate για την δημιουργία 
+        της βάσης δεδομένων της εφαρμογής */
         DatabaseCreate.CreateDatabaseTables();
         
-        //Δημιουργία του MAINFORM 
+        //Δημιουργία του MAINFORM , το κεντρικό περιβάλλον εργασίας του χρήστη (GUI)
         MainForm mf = new MainForm();
         mf.setTitle("Meals App");
         mf.setLocationRelativeTo(null);

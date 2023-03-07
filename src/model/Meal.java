@@ -54,22 +54,25 @@ public class Meal implements Serializable {
     @Column(name = "MEALCOUNTER")
     private int mealcounter;
 
+    // κενός κατασκευαστής
     public Meal() {
     }
 
+    //κατασκευαστής
     public Meal(Integer mealid) {
         this.mealid = mealid;
     }
-
+    //κατασκευαστής με ορίσματα τα πεδία της βάσης
     public Meal(Integer mealid, String mealname, String mealcategory, String mealcountry, String mealinstructions) {
         this.mealid = mealid;
         this.mealname = mealname;
         this.mealcategory = mealcategory;
         this.mealcountry = mealcountry;
         this.mealinstructions = mealinstructions;
-        this.mealcounter = 1; //αρχικοποιούμε τον μετρητή σε 0
+        this.mealcounter = 1; //αρχικοποιούμε τον μετρητή σε 1
     }
 
+    //μέθοδοι get και set των πεδίων
     public Integer getMealid() {
         return mealid;
     }

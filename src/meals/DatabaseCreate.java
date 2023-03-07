@@ -30,11 +30,12 @@ public class DatabaseCreate {
             statement.close();
             connection.close();
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            //Μήνυμα στο console για το εάν υπάρχει ήδη βάση στο φάκελο του project
+            System.out.println("Console logcat createDatabase : "+ex.getMessage());
         }
     }
 
-    //Δημιουργεί τους πίνακες της βάσης δεδομένων (αν δεν υπάρχουν)
+    //Static μέθοδος που καλείται στην main και δημιουργεί τους πίνακες της βάσης δεδομένων (αν δεν υπάρχουν)
     public static void CreateDatabaseTables() {
 
         //String για τη δημιουργία του πίνακα meal
