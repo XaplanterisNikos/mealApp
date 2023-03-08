@@ -29,6 +29,7 @@ public class DatabaseCreate {
             statement.executeUpdate(createTableSQL);
             statement.close();
             connection.close();
+            System.out.println("Console logcat createDatabase : Table/View 'MEAL' has create in Schema 'APP'");
         } catch (SQLException ex) {
             //Μήνυμα στο console για το εάν υπάρχει ήδη βάση στο φάκελο του project
             System.out.println("Console logcat createDatabase : "+ex.getMessage());
